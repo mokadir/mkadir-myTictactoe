@@ -25,6 +25,8 @@ class Game {
   ];
 
   constructor() {
+    /** @type {{ X: number, O: number, draw: number }} Score counters */
+    this.scores = { X: 0, O: 0, draw: 0 };
     this.reset();
   }
 
