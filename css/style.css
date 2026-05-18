@@ -468,6 +468,7 @@ body {
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
+  pointer-events: none;       /* allow clicks to pass through to buttons behind */
   /* Fade in animation */
   animation: overlayFadeIn 0.3s ease;
 }
@@ -482,7 +483,9 @@ body {
   display: none;
 }
 
+/* Restore pointer events on the content box so Play Again button works */
 .overlay-content {
+  pointer-events: auto;
   background: var(--bg-secondary);
   border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 20px;
