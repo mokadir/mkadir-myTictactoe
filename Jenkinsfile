@@ -117,6 +117,7 @@ spec:
                 container('tools') {
                     script {
                         sh 'apk add --no-cache git >/dev/null 2>&1'
+                        sh 'git config --global --add safe.directory ${WORKSPACE}'
                         env.SHORT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                         def rawTag = params.IMAGE_TAG?.trim()
                         def safeBranch = params.GIT_BRANCH.replaceAll('[^a-zA-Z0-9._-]', '-').toLowerCase()
