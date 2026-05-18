@@ -1,0 +1,700 @@
+/* ============================================================
+   NEON TIC TAC TOE — STYLES
+   Dark neon theme with smooth animations & full responsiveness
+   ============================================================ */
+
+/* ---------- CSS Custom Properties (Design Tokens) ---------- */
+:root {
+  /* Neon color palette */
+  --neon-cyan: #00f0ff;
+  --neon-pink: #ff2d78;
+  --neon-purple: #b44dff;
+  --neon-yellow: #ffe74d;
+  --neon-green: #40ff80;
+  --neon-orange: #ff6a00;
+
+  /* Background shades */
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #12122a;
+  --bg-card: #1a1a3e;
+  --bg-card-hover: #222255;
+
+  /* Text & utility */
+  --text-primary: #e0e0ff;
+  --text-muted: #8888aa;
+  --border-color: #2a2a55;
+  --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* Transitions */
+  --transition-fast: 200ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  /* Subtle animated background gradient */
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 50%,
+    #0d0d2b 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Animated background gradient */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------- Game Container ---------- */
+.game-container {
+  width: 100%;
+  max-width: 520px;
+  padding: 1.5rem;
+  background: rgba(18, 18, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glow), 0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative neon border line */
+.game-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 21px;
+  background: linear-gradient(
+    45deg,
+    var(--neon-cyan),
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-cyan)
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  animation: neonBorder 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes neonBorder {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+
+/* ---------- Header / Title ---------- */
+.game-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.game-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    var(--neon-cyan),
+    var(--neon-pink),
+    var(--neon-purple)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0%   { filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.3)); }
+  100% { filter: drop-shadow(0 0 20px rgba(180, 77, 255, 0.5)); }
+}
+
+.game-subtitle {
+  font-size: 0.85rem;
+  color: var(--neon-cyan);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-top: 0.25rem;
+}
+
+/* ---------- Scoreboard ---------- */
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.score-card {
+  flex: 1;
+  max-width: 140px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.score-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 240, 255, 0.1);
+}
+
+/* Neon accents per score card */
+.score-x { border-color: rgba(0, 240, 255, 0.3); }
+.score-draw { border-color: rgba(255, 231, 77, 0.3); }
+.score-o { border-color: rgba(255, 45, 120, 0.3); }
+
+.score-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.score-value {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  transition: color var(--transition-normal);
+}
+
+.score-x .score-value { color: var(--neon-cyan); }
+.score-draw .score-value { color: var(--neon-yellow); }
+.score-o .score-value { color: var(--neon-pink); }
+
+/* ---------- Turn Indicator ---------- */
+.turn-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.turn-text {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.turn-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 50%;
+  color: var(--bg-primary);
+  transition: background var(--transition-normal), transform var(--transition-fast);
+  animation: badgePop 0.3s ease;
+}
+
+.turn-badge.turn-x {
+  background: var(--neon-cyan);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.5);
+}
+
+.turn-badge.turn-o {
+  background: var(--neon-pink);
+  box-shadow: 0 0 16px rgba(255, 45, 120, 0.5);
+}
+
+@keyframes badgePop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Game Board ---------- */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  aspect-ratio: 1 / 1;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Board Cells ---------- */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hover state (only when cell is empty) */
+.cell:not(.taken):hover {
+  border-color: var(--neon-cyan);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.15);
+  transform: scale(1.03);
+}
+
+/* Focus ring for accessibility */
+.cell:focus-visible {
+  outline: 3px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+/* Click/active state */
+.cell:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Mark Styles (X / O) ---------- */
+.cell.mark-x {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.6), 0 0 40px rgba(0, 240, 255, 0.3);
+  animation: markPlacement 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cell.mark-o {
+  color: var(--neon-pink);
+  text-shadow: 0 0 20px rgba(255, 45, 120, 0.6), 0 0 40px rgba(255, 45, 120, 0.3);
+  animation: markPlacement 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Placement animation */
+@keyframes markPlacement {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Winning cell highlight */
+.cell.win-highlight {
+  animation: winPulse 0.8s ease-in-out infinite alternate;
+}
+
+.cell.win-highlight.mark-x {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.3);
+}
+
+.cell.win-highlight.mark-o {
+  background: rgba(255, 45, 120, 0.12);
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 24px rgba(255, 45, 120, 0.3);
+}
+
+@keyframes winPulse {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.06); }
+}
+
+/* Cell disabled after game over */
+.cell.disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.cell.disabled:not(.taken):hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-color);
+  background: var(--bg-card);
+}
+
+/* ---------- Action Buttons ---------- */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+/* New Game button */
+.btn-restart {
+  background: transparent;
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.btn-restart:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-restart:active {
+  transform: translateY(0);
+}
+
+/* Reset Scores button */
+.btn-reset {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+
+.btn-reset:hover {
+  color: var(--neon-orange);
+  border-color: var(--neon-orange);
+  background: rgba(255, 106, 0, 0.08);
+  box-shadow: 0 0 16px rgba(255, 106, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-reset:active {
+  transform: translateY(0);
+}
+
+/* Play Again (inside overlay) */
+.btn-play-again {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: var(--bg-primary);
+  border: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.btn-play-again:hover {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-play-again:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Focus styles for accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 3px;
+}
+
+/* ---------- Footer ---------- */
+.game-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  letter-spacing: 2px;
+}
+
+/* ---------- Game Over Overlay ---------- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  /* Fade in animation */
+  animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Hidden state */
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-content {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.1);
+  animation: overlayContentIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes overlayContentIn {
+  from { transform: scale(0.8) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.overlay-icon {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  animation: iconBounce 0.6s ease;
+}
+
+@keyframes iconBounce {
+  0%   { transform: scale(0); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.overlay-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
+}
+
+.overlay-message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--neon-cyan);
+  margin-bottom: 1.5rem;
+}
+
+/* Dynamic message colors via JS will override */
+.overlay-message.win-x { color: var(--neon-cyan); text-shadow: 0 0 12px rgba(0, 240, 255, 0.5); }
+.overlay-message.win-o { color: var(--neon-pink); text-shadow: 0 0 12px rgba(255, 45, 120, 0.5); }
+.overlay-message.draw  { color: var(--neon-yellow); text-shadow: 0 0 12px rgba(255, 231, 77, 0.5); }
+
+/* ---------- Responsive Design ---------- */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .game-container {
+    max-width: 460px;
+    padding: 1.25rem;
+  }
+
+  .game-title {
+    font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+  }
+
+  .score-card {
+    padding: 0.5rem 0.3rem;
+  }
+
+  .score-value {
+    font-size: 1.5rem;
+  }
+
+  .cell {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+
+  .overlay-content {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
+  .game-container {
+    max-width: 100%;
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .game-container::before {
+    border-radius: 17px;
+  }
+
+  .game-title {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .game-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+  }
+
+  .scoreboard {
+    gap: 0.4rem;
+  }
+
+  .score-card {
+    padding: 0.4rem 0.2rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .score-label {
+    font-size: 0.6rem;
+  }
+
+  .score-value {
+    font-size: 1.2rem;
+  }
+
+  .board {
+    gap: 5px;
+    max-width: 300px;
+  }
+
+  .cell {
+    font-size: 2rem;
+    border-radius: 6px;
+  }
+
+  .turn-indicator {
+    font-size: 0.85rem;
+  }
+
+  .turn-badge {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    letter-spacing: 1px;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .overlay-content {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .overlay-icon {
+    font-size: 2.5rem;
+  }
+
+  .overlay-title {
+    font-size: 1.3rem;
+  }
+
+  .overlay-message {
+    font-size: 1rem;
+  }
+}
+
+/* Small mobile (360px and below) */
+@media (max-width: 360px) {
+  .board {
+    max-width: 260px;
+  }
+
+  .cell {
+    font-size: 1.6rem;
+  }
+
+  .game-title {
+    font-size: 1rem;
+  }
+
+  .score-value {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- Utility & General Animations ---------- */
+
+/* Screen reader only (for accessibility) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Disable animations if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
